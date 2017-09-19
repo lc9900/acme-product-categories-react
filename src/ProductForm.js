@@ -21,11 +21,19 @@ export default class ProductForm extends Component {
     componentWillReceiveProps(newProps){
         // Since by default, inStock checkbox is checked, thus the inStock value is also true
         let inStock = newProps.inStock === undefined ? this.state.inStock : newProps.inStock;
+        if (newProps.product) {
+            this.setState({
+                categoryId: newProps.product.categoryId,
+                inStock
+            });
+        }
+        else {
+            this.setState({
+                inStock
+            });
+        }
         // If the upstream passes in the inStock prop, then inStockChecked will be whatever the inStock prop is.
         // If no inStock prop is passed in, inStockCheck retains its initial value, which is true
-        this.setState({
-            inStock
-        });
     }
 
     componentDidMount(){
@@ -115,7 +123,7 @@ export default class ProductForm extends Component {
                                         categories.map(category => {
                                             let checked = this.state.categoryId === category.id ? true:false;
                                             return (
-                                                <option key={categoryId} value={category.id} checked={checked}>{category.name}</option>
+                                                <option key={category.id} value={category.id} checked={checked}>{category.name}</option>
                                             );
                                         })
                                     }
